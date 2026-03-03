@@ -1,47 +1,41 @@
-package com.Gdz.stats.service;
+package com.Gdz.bot.service;
 
-import com.Gdz.stats.dto.SteamStatsDto;
+import com.Gdz.bot.dto.SteamStatsDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SteamStatsService {
 
-    private final AuthIntegrationService authIntegrationService;
     private final RestTemplate restTemplate;
+    private final DeepSeekService deepSeekService; // Подключаем ИИ
+    
+    @Value("${steam.service.url}")
+    private String steamUrl;
 
-    @Value("${steam.api.key}")
-    private String steamApiKey;
-
-    public SteamStatsDto getStatsForTelegramUser(Long telegramId) {
-        // 1. Узнаем Steam ID пользователя через микросервис авторизации
-        String steamId = authIntegrationService.getSteamIdByTelegramId(telegramId);
+    public SteamStatsDto getStats(Long telegramId) {
+        // 1. Предположим, здесь мы получаем данные из реального Steam или БД
+        // В продакшене тут будет вызов: restTemplate.getForObject(steamUrl + "/raw/" + telegramId, ...)
         
-        if (steamId == null || steamId.isBlank()) {
-            return null; // Возвращаем null, контроллер отдаст 404, а бот напишет "Аккаунт не привязан"
-        }
+        // Для примера создадим "сырые" данные
+        String nickname = "Gamer1337";
+        int games = 120;
+        int hours = 2500;
+        String topGame = "Dota 2";
 
-        // 2. Идем в реальный Steam Web API по полученному steamId
-        return fetchRealSteamStats(steamId);
-    }
+        // 2. Отправляем эти данные в DeepSeek для анализа
+        String aiAnalysis = deepSeekService.analyzeStats(nickname, games, hours, topGame);
 
-    private SteamStatsDto fetchRealSteamStats(String steamId) {
-        // TODO: Здесь должен быть реальный HTTP вызов к api.steampowered.com
-        // Например: http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=KEY&steamid=ID&format=json
-        
-        log.info("Запрашиваем статистику Steam для аккаунта: {}", steamId);
-
-        // ВРЕМЕННАЯ ЗАГЛУШКА (Mock) для проверки работы:
+        // 3. Возвращаем полный объект
         return SteamStatsDto.builder()
-                .nickname("Player_" + steamId.substring(Math.max(0, steamId.length() - 4))) // берем последние 4 цифры
-                .gamesCount(142)
-                .hoursTotal(3450)
-                .topGame("Counter-Strike 2")
+                .nickname(nickname)
+                .gamesCount(games)
+                .hoursTotal(hours)
+                .topGame(topGame)
+                .deepSeekAnalysis(aiAnalysis)
                 .build();
     }
 }
