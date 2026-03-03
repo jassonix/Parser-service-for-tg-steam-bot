@@ -1,0 +1,10 @@
+server:
+  port: 8082 # Порт этого микросервиса
+
+auth:
+  service:
+    url: "http://localhost:8081" # URL микросервиса привязки
+
+steam:
+  api:
+    key: "YOUR_STEAM_API_KEY_HERE" # Ключ для реального Steam API
