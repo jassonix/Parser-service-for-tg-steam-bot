@@ -13,6 +13,6 @@ steam:
 
 openrouter:
   api:
-    key: "sk-or-v1-your-openrouter-key" # Твой ключ OpenRouter
+    key: "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
     url: "https://openrouter.ai/api/v1/chat/completions"
-    model: "deepseek/deepseek-chat" # Или "google/gemini-2.0-flash-001"
+    model: "deepseek/deepseek-chat"
