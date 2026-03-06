@@ -1,6 +1,6 @@
 telegram:
   bot:
-    token: "твой_токен"
+    token: "токен"
     username: "имя_бота"
 
 auth:
@@ -11,7 +11,8 @@ steam:
   service:
     url: "http://localhost:8082"
 
-deepseek:
+openrouter:
   api:
-    key: "sk-your-deepseek-api-key" # Получи на platform.deepseek.com
-    url: "https://api.deepseek.com/v1/chat/completions"
+    key: "sk-or-v1-your-openrouter-key" # Твой ключ OpenRouter
+    url: "https://openrouter.ai/api/v1/chat/completions"
+    model: "deepseek/deepseek-chat" # Или "google/gemini-2.0-flash-001"
